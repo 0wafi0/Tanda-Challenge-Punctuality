@@ -1,3 +1,5 @@
+
+
 $('input[name="daterange"]').daterangepicker({
 	ranges: {
 		'This Pay Period': [moment().subtract(moment().day(), 'days'), moment()],
@@ -16,3 +18,7 @@ $('input[name="daterange"]').daterangepicker({
 });
 
 console.log($('input[name="daterange"]').data('daterangepicker').startDate.format('YYYY-MM-DD'));
+
+fetch('http://localhost:4567/roster/2013-09-15').then(function(response) {
+	console.log(response.json());
+});

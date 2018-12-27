@@ -1,29 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	
-	<!----- Import fonts and required styles ----->
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-	<link rel="stylesheet" href="styles.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-	
-	<title>Tanda - Punctuality</title>
-	
+	<head>
+		<meta charset="UTF-8">
+
+		<!----- Import fonts and required styles ----->
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		<link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+		<title>Tanda - Punctuality</title>
+
 	</head>
 	<body>
-		<div id="header" class="flex">
-			<div id="logo" class="flex">
-				<img src="Logo.PNG" alt="">
-				<h1>Slave Pikachu</h1>
+		<main>
+			<!----- Header ----->	
+			<div id="header" class="flex">
+				<div id="logo" class="flex">
+					<img src="Logo.PNG" alt="">
+					<h1>Slave Pikachu</h1>
+				</div>
+				<div id="date-picker">
+					<input id="calendar" type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+				</div>		
 			</div>
-			<div id="date-picker">
-				<input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+
+			<!----- Rosters ----->	
+			<table id="table">
+				<!----- Rosters Header ----->	
+				<thead id="table-header">
+					<th>Day</th>
+					<th>Rostered Start</th>
+					<th>Actual Start</th>
+					<th>Rostered Finish</th>
+					<th>Actual Finish</th>
+				</thead>
+				
+				<!----- Rosters Shifts ----->
+				<tr class="shift">
+					<td>12 may 2018</td>
+					<td>12:30pm</td>
+					<td>12:30pm</td>
+					<td>12:30pm</td>
+					<td>12:30pm</td>
+				</tr>
+			</table>
+			
+			<!----- Rosters footer ----->
+			<div id="table-footer" class="flex">
+				<button>Previous</button>
+				<div>
+					Show  
+					<select>
+					  <option value="25">25</option>
+					  <option value="50">50</option>
+					  <option value="100">100</option>
+					</select> 
+				</div>
+				<button>Next</button>
 			</div>
 			
-
-		</div>
-
+		
+		</main>
+		
 		<!----- Import required dependencies for date picker ----->	
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 		<script type="text/javascript"src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
