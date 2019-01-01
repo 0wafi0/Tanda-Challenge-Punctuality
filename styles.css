@@ -104,6 +104,7 @@ html,body,main {
 #table {
 	color: #727272;
 	width: 100%;
+	table-layout: fixed;
 }
 
 #table-header {
@@ -112,7 +113,7 @@ html,body,main {
 }
 
 #table-header * {
-	padding: 8px;
+	padding: 12px;
 	font-weight: bold;
 }
 
@@ -137,10 +138,38 @@ html,body,main {
 	border-radius: 3px;
 }
 
-.shift {
+.entry {
 	border-bottom: 2px solid #cecece;
 }
 
-.shift > td {
-	padding: 8px;
+.entry > td {
+	padding: 12px;
 }
+
+.tooltip {
+	margin: 2px;
+	position: absolute;
+	background-color: #ffa538;
+	color: white;
+	padding: 2px 4px;
+	border-radius: 3px;
+	font-size: 12px;
+
+}
+
+.tooltip > span {
+	display: none;
+	background-color: rgba(0,0,0, 0.5);
+	padding: 3px;
+	border-radius: 4px;
+	border-bottom-left-radius: 0px;
+	position: absolute;
+}
+
+.tooltip:hover > span{
+	display: inline-block;
+	margin: 2px;
+	transform: translate(70%, -200%);
+	
+}
+
