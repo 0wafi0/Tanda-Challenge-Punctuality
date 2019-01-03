@@ -12,8 +12,8 @@ $('input[name="daterange"]').daterangepicker({
 		'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
 	},
 	"alwaysShowCalendars": true,
-	"startDate": moment().subtract(moment().day(), 'days'),
-	"endDate": moment(),
+	"startDate": moment('2013-07-31'),
+	"endDate": moment('2014-06-25'),
 	"maxDate": moment(),
 	"showWeekNumbers": true,
 	"opens": "left"
@@ -21,9 +21,8 @@ $('input[name="daterange"]').daterangepicker({
   console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + "asdasdas" + ')');
 });
 
-
 const GetDataCB = (start, end, label) => {
-
+	
 	const rostersURL = start === end ? 'http://localhost:4567/roster/' + start : 'http://localhost:4567/rosters/' + start + '/' + end;
 	const shiftsURL = start === end ? 'http://localhost:4567/shift/' + start : 'http://localhost:4567/shifts/' + start + '/' + end;
 	
@@ -38,14 +37,14 @@ const GetDataCB = (start, end, label) => {
 		data.rosters.forEach((item) => data.dates.push(item.date));
 		data.shifts.forEach((item) => data.dates.push(item.date));
 		data.dates = data.dates.filter((item, pos) => data.dates.indexOf(item) === pos);
-		console.log(data);
-		ArrangeData();
+		RenderData();
 	}).catch((err) => console.log(err));
 }
 
-GetDataCB('2013-07-31', '2014-06-25');
 
-const ArrangeData = () => {
+
+
+const RenderData = () => {
 	data.dates.forEach((date) => {
 		const rosterEntry = data.rosters.find(eachRosterEntry => eachRosterEntry.date === date);
 		const shiftEntry = data.shifts.find(eachShiftsEntry => eachShiftsEntry.date === date);
@@ -71,13 +70,11 @@ const ArrangeData = () => {
 			rosteredStart.innerHTML = moment(rosterEntry.start).format('HH:mm');
 			rosteredFinish.innerHTML = moment(rosterEntry.finish).format('HH:mm');
 		}
-		
 		if(shiftUndefined) {
 			actualStart.innerHTML = 'No Log'; 
 			actualFinish.innerHTML = 'No Log';
 		} else {
-			if(calculateDiff) {
-				
+			if(calculateDiff) {		
 				if(moment(rosterEntry.start).isBefore(moment(shiftEntry.start))){
 					const diffStart = moment(moment(shiftEntry.start).diff(moment(rosterEntry.start))).format('m [min]');
 					const tooltipStart = document.createElement('span');
@@ -101,13 +98,18 @@ const ArrangeData = () => {
 					actualFinish.appendChild(tooltipFinish);
 				} else {
 					actualFinish.innerHTML = 'on time';
-				}
-				
-				
+				}			
 			} else {
 				actualStart.innerHTML = moment(shiftEntry.start).format('HH:mm')
 				actualFinish.innerHTML = moment(shiftEntry.finish).format('HH:mm')
 			}
 		}	
 	});
+	paginator({
+		table: document.getElementsByTagName('table')[0],
+		box: document.getElementById("table-footer"),
+		active_class: "color_page"
+	});
 }
+
+GetDataCB('2013-07-31', '2014-06-25');
