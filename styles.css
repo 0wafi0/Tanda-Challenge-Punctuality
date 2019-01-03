@@ -228,6 +228,7 @@ html,body,main {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 	width: 100%;
 	height: 37%;
 }
@@ -240,4 +241,25 @@ html,body,main {
     top:20%;
     left: 50%;
 	transform: translate(-50%,-50%);
+}
+
+.stat-cards {
+	display: flex;
+	flex-direction: row;
+}
+
+.stat-cards > .card {
+	width: 140px;
+	height: 16px;
+	border: 1px solid #cecece;
+	margin: 15px;
+	border-radius: 4px;
+	padding: 6px 5px;
+	text-align: center;
+	color: grey;
+}
+
+.stats * {
+	font-weight: 600;
+	color: #727272;
 }

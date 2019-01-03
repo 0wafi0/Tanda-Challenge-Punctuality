@@ -1,4 +1,4 @@
-const data = {
+const dataRosterViewingPage = {
 	rosters: [],
 	shifts: [],
 	dates: []
@@ -31,25 +31,25 @@ const GetDataCB = (start, end, label) => {
 		fetch(shiftsURL)
 		.then((shiftsFromServer) => shiftsFromServer.json())
 	]).then(([rostersFromServer, shiftsFromServer]) => {
-		data.rosters = rostersFromServer;
-		data.shifts = shiftsFromServer;
-		data.rosters.forEach((item) => data.dates.push(item.date));
-		data.shifts.forEach((item) => data.dates.push(item.date));
-		data.dates = data.dates.filter((item, pos) => data.dates.indexOf(item) === pos);
+		dataRosterViewingPage.rosters = rostersFromServer;
+		dataRosterViewingPage.shifts = shiftsFromServer;
+		dataRosterViewingPage.rosters.forEach((item) => dataRosterViewingPage.dates.push(item.date));
+		dataRosterViewingPage.shifts.forEach((item) => dataRosterViewingPage.dates.push(item.date));
+		dataRosterViewingPage.dates = dataRosterViewingPage.dates.filter((item, pos) => dataRosterViewingPage.dates.indexOf(item) === pos);
 		sortDatesMostRecent();
-		console.log(data.dates);
+		console.log(dataRosterViewingPage.dates);
 		RenderData();
 	}).catch((err) => console.log(err));
 }
 
 const sortDatesMostRecent = () => {
-	data.dates.sort((prev, next) => {
+	dataRosterViewingPage.dates.sort((prev, next) => {
 		return moment(next).diff(moment(prev));
 	})
 }
 
 const sortDatesEarliest = () => {
-	data.dates.sort((prev, next) => {
+	dataRosterViewingPage.dates.sort((prev, next) => {
 		return moment(prev).diff(moment(next));
 	})
 }
@@ -75,13 +75,13 @@ const deleteAllEntries = () => {
 
 const RenderData = () => {
 	
-	let shifts = 0;
+
 	let late = 0;
 	let early = 0;
 	
-	data.dates.forEach((date) => {
-		const rosterEntry = data.rosters.find(eachRosterEntry => eachRosterEntry.date === date);
-		const shiftEntry = data.shifts.find(eachShiftsEntry => eachShiftsEntry.date === date);
+	dataRosterViewingPage.dates.forEach((date) => {
+		const rosterEntry = dataRosterViewingPage.rosters.find(eachRosterEntry => eachRosterEntry.date === date);
+		const shiftEntry = dataRosterViewingPage.shifts.find(eachShiftsEntry => eachShiftsEntry.date === date);
 		const table = document.getElementById("entries");
 		const row = table.insertRow(table.rows.length);
 		row.classList.add('entry')
@@ -131,6 +131,8 @@ const RenderData = () => {
 					
 					actualFinish.innerHTML = 'left early ';
 					actualFinish.appendChild(tooltipFinish);
+					
+					early++;
 				} else {
 					actualFinish.innerHTML = 'on time';
 				}			
@@ -146,7 +148,22 @@ const RenderData = () => {
 		active_class: "color_page"
 	});
 	
+	const percentage = Math.round(100 * ((dataRosterViewingPage.dates.length - (late + early))/dataRosterViewingPage.dates.length));
+	const circlePercentageElement = document.getElementById('circle-percentage');
+	const circlePercentageClasses = circlePercentageElement.classList;
+	const percentageElementSpan = circlePercentageElement.getElementsByTagName('span');
+	percentageElementSpan[0].innerHTML = percentage + '%';
+	circlePercentageClasses.remove(circlePercentageClasses.item(circlePercentageClasses.length));
 	
+	circlePercentageClasses.add('p' + percentage);
+	
+	document.getElementsByClassName('summary')[0].innerHTML = 'The Slave Pikachu has been punctual ' + percentage + '% of the time';
+	
+	document.getElementsByClassName('card')[0].innerHTML = 'on time: ' + (dataRosterViewingPage.dates.length - (late + early));
+	
+	document.getElementsByClassName('card')[1].innerHTML = 'late: ' + late;
+	
+	document.getElementsByClassName('card')[2].innerHTML = 'left early: ' + early;
 	
 }
 
