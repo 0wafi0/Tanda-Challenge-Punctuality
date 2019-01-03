@@ -5,7 +5,9 @@
 
 		<!----- Import fonts and required styles ----->
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		
 		<link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" href="circle.css">
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 		<title>Tanda - Punctuality</title>
@@ -24,12 +26,24 @@
 					<input id="calendar" type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
 				</div>		
 			</div>
+			
+			<!----- Stats ----->
+			<div class="stats">
+				<div class="c100 p25">
+                    <span>25%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div> 
+				
+			</div>
 
 			<!----- Rosters ----->	
 			<table id="main-table">
 				<!----- Rosters Header ----->	
-				<thead id="table-header">
-					<th>Day</th>
+				<thead class="table-header">
+					<th>Day <i id="date-sort" class="arrow down"></i></th>
 					<th>Rostered Start</th>
 					<th>Actual Start</th>
 					<th>Rostered Finish</th>

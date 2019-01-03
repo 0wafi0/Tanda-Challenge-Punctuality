@@ -15,10 +15,9 @@ $('input[name="daterange"]').daterangepicker({
 	"startDate": moment('2013-07-31'),
 	"endDate": moment('2014-06-25'),
 	"maxDate": moment(),
-	"showWeekNumbers": true,
 	"opens": "left"
 }, function(start, end, label) {
-  console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + "asdasdas" + ')');
+  		//DO STUFF
 });
 
 const GetDataCB = (start, end, label) => {
@@ -37,14 +36,49 @@ const GetDataCB = (start, end, label) => {
 		data.rosters.forEach((item) => data.dates.push(item.date));
 		data.shifts.forEach((item) => data.dates.push(item.date));
 		data.dates = data.dates.filter((item, pos) => data.dates.indexOf(item) === pos);
+		sortDatesMostRecent();
+		console.log(data.dates);
 		RenderData();
 	}).catch((err) => console.log(err));
 }
 
+const sortDatesMostRecent = () => {
+	data.dates.sort((prev, next) => {
+		return moment(next).diff(moment(prev));
+	})
+}
 
+const sortDatesEarliest = () => {
+	data.dates.sort((prev, next) => {
+		return moment(prev).diff(moment(next));
+	})
+}
 
+document.getElementById('date-sort').addEventListener('click', () => {
+	if(document.getElementById('date-sort').classList.contains('down')) {
+		sortDatesEarliest();
+		document.getElementById('date-sort').classList.remove('down');
+		document.getElementById('date-sort').classList.add('up');
+	} else {
+		sortDatesMostRecent();
+		document.getElementById('date-sort').classList.remove('up');
+		document.getElementById('date-sort').classList.add('down');
+	}
+	deleteAllEntries();
+	RenderData();
+});
+
+const deleteAllEntries = () => {
+	const table = document.getElementById('entries');
+	table.innerHTML = ''; // due to pagination purge it completely
+}
 
 const RenderData = () => {
+	
+	let shifts = 0;
+	let late = 0;
+	let early = 0;
+	
 	data.dates.forEach((date) => {
 		const rosterEntry = data.rosters.find(eachRosterEntry => eachRosterEntry.date === date);
 		const shiftEntry = data.shifts.find(eachShiftsEntry => eachShiftsEntry.date === date);
@@ -83,13 +117,14 @@ const RenderData = () => {
 					
 					actualStart.innerHTML = 'late ';
 					actualStart.appendChild(tooltipStart);
+					
+					late++;
 				} else {
 					actualStart.innerHTML = 'on time';
 				}
 				
 				if(moment(shiftEntry.finish).isBefore(moment(rosterEntry.finish))){
 					const diffFinish = moment(moment(rosterEntry.finish).diff(moment(shiftEntry.finish))).format('m [min]');
-					console.log(diffFinish);
 					const tooltipFinish = document.createElement('span');
 					tooltipFinish.classList.add('tooltip');
 					tooltipFinish.innerHTML = diffFinish + ' <span>' + moment(shiftEntry.finish).format('HH:mm') + '</span>';
@@ -110,6 +145,9 @@ const RenderData = () => {
 		box: document.getElementById("table-footer"),
 		active_class: "color_page"
 	});
+	
+	
+	
 }
 
 GetDataCB('2013-07-31', '2014-06-25');
