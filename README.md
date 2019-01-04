@@ -1,3 +1,10 @@
+To run my code locally:
+
+	- download all files.
+	- have ruby installed.
+	- install sinatra to run the server
+	- open the index.html
+
 Punctuality
 =================================
 
