@@ -244,15 +244,27 @@ const RenderData = () => {
 	const circlePercentageElement = document.getElementById('circle-percentage');
 	const circlePercentageClasses = circlePercentageElement.classList;
 	const percentageElementSpan = circlePercentageElement.getElementsByTagName('span');
-	percentageElementSpan[0].innerHTML = percentage + '%';
-	circlePercentageClasses.remove(circlePercentageClasses.item(circlePercentageClasses.length));	
-	circlePercentageClasses.add('p' + percentage);
 	
-	//write summary stats
-	document.getElementsByClassName('summary')[0].innerHTML = 'The Slave Pikachu is punctual ' + percentage + '% of the time.';
-	document.getElementsByClassName('card')[0].innerHTML = 'Punctual: ' + (dataRosterViewingPage.dates.length - (late + early));
-	document.getElementsByClassName('card')[1].innerHTML = 'Arrived Late: ' + late;
-	document.getElementsByClassName('card')[2].innerHTML = 'Left Early: ' + early;
+	
+	// write summary stats
+	// if selected date range has no entries in the server
+	if(dataRosterViewingPage.dates.length === 0) {
+		document.getElementsByClassName('summary')[0].innerHTML = 'No entries Found'
+		percentageElementSpan[0].innerHTML = '0';
+		document.getElementsByClassName('card')[0].innerHTML = 'Punctual: 0';
+		document.getElementsByClassName('card')[1].innerHTML = 'Arrived Late: 0';
+		document.getElementsByClassName('card')[2].innerHTML = 'Left Early: 0';
+	} else {
+		// render the required stats
+		percentageElementSpan[0].innerHTML = percentage + '%';
+		document.getElementsByClassName('summary')[0].innerHTML = 'The Slave Pikachu is punctual ' + percentage + '% of the time.';
+		document.getElementsByClassName('card')[0].innerHTML = 'Punctual: ' + (dataRosterViewingPage.dates.length - (late + early));
+		document.getElementsByClassName('card')[1].innerHTML = 'Arrived Late: ' + late;
+		document.getElementsByClassName('card')[2].innerHTML = 'Left Early: ' + early;
+		circlePercentageClasses.remove(circlePercentageClasses.item(circlePercentageClasses.length));	
+		circlePercentageClasses.add('p' + percentage);
+	}
+	
 }
 
 // Initial call to obtain data and render the page with the default values set in the date picker

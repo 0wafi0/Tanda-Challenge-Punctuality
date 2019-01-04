@@ -1,3 +1,6 @@
+Added all features from basics to advanced.
+Added extra feature to sort dates on the table by decreasing or increasing order.
+
 To run my code locally:
 
 	- download all files.
